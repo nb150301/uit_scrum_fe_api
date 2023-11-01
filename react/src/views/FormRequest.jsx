@@ -7,7 +7,6 @@ export default function FormRequest() {
   return (
     <div className="flex justify-center flex-row">
       <form className="w-1/2">
-        <div><label htmlFor="name">Name</label></div>
         <div><input id="name" name="name" value={user.name} type="text" disabled/></div>
         <div className="mb-3">
           <div className="flex">
@@ -21,12 +20,10 @@ export default function FormRequest() {
             </div>
           </div>
           <div><label htmlFor="reason">Reason</label></div>
-          <div><textarea rows="3" className="w-full" id="reason" name="reason"></textarea></div>
+          <div><textarea rows="3" className="w-100" id="reason" name="reason"></textarea></div>
         </div>
-        <div className="flex justify-center">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Submit
-          </button>
+        <div className="d-flex justify-content-center">
+          <button type="button" className="btn btn-primary">Submit</button>
         </div>
       </form>
     </div>
