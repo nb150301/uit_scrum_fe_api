@@ -8,6 +8,7 @@ import Signup from "./views/Signup";
 import Users from "./views/Users";
 import UserForm from "./views/UserForm";
 import FormRequest from "./views/FormRequest.jsx";
+import RequestsPage from "./views/RequestsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: '/users/:id',
         element: <UserForm key="userUpdate" />
+      },
+      {
+        path: '/employee-requests',
+        element: <RequestsPage />
       }
     ]
   },
