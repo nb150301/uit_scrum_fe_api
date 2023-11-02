@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('request_form', function (Blueprint $table) {
             $table->id();
+            $table->string('type')->default('expected');
             $table->string('sender_id');
             $table->string('manager_id');
             $table->dateTime('start_date');

@@ -11,6 +11,7 @@ class RequestForm extends Model
 
     protected $id = 'id';
     protected $fillable = [
+        'type',
         'sender_id',
         'start_date',
         'end_date',

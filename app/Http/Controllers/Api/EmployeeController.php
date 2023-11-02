@@ -27,7 +27,7 @@ class EmployeeController extends Controller
                 'id' => $form->id,
                 'reason' => $form->reason,
                 'start_date' => date('d/m/Y', strtotime($form->start_date)),
-                'end_date' => date('d/m/Y', strtotime($form->start_date)),
+                'end_date' => date('d/m/Y', strtotime($form->end_date)),
                 'status' => $form->status,
             ];
         }
@@ -52,7 +52,7 @@ class EmployeeController extends Controller
                 'employee_name' => DB::table('users')->where('id', $form->sender_id)->get('name')[0]->name,
                 'reason' => $form->reason,
                 'start_date' => date('d/m/Y', strtotime($form->start_date)),
-                'end_date' => date('d/m/Y', strtotime($form->start_date)),
+                'end_date' => date('d/m/Y', strtotime($form->end_date)),
                 'status' => $form->status,
             ];
         }
@@ -62,16 +62,30 @@ class EmployeeController extends Controller
 
     public function postForms(Request $request) {
         $request->validate([
+            'request_type' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
             'employee_id' => 'required',
             'reason' => 'nullable',
         ]);
+        $employee = User::where('id', $request->input('employee_id'))->get()[0];
+
+        if ($request->request_type == 'unexpected') {
+            DB::table('request_form')->insert([
+                'type' => 'unexpected',
+                'sender_id' => $employee->id,
+                'manager_id' => $employee->manager->id,
+                'start_date' => date_create($request->input('start_date')),
+                'end_date' => date_create($request->input('end_date')),
+                'reason' => $request->input('reason'),
+            ]);
+
+            return response('Da gui form thanh cong', 201);
+        }
         $startDate = date_create($request->input('start_date'));
         $endDate = date_create($request->input('end_date'));
         $totalDays = date_diff($endDate, $startDate, true)->days;
 
-        $employee = User::where('id', $request->input('employee_id'))->get()[0];
 
         $remainingDays = $employee->remaining_day;
 
@@ -80,6 +94,7 @@ class EmployeeController extends Controller
         }
 
         DB::table('request_form')->insert([
+            'type' => 'expected',
             'sender_id' => $employee->id,
             'manager_id' => $employee->manager->id,
             'start_date' => date_create($request->input('start_date')),
@@ -110,6 +125,15 @@ class EmployeeController extends Controller
                 ]);
 
             return response('Da reject thanh cong', 201);
+        }
+
+        if ($form->type == 'unexpected') {
+            DB::table('request_form')->where('id', $formId)
+                ->update([
+                    'status' => 'accepted',
+                ]);
+
+            return response('Da accpet thanh cong', 201);
         }
 
         $startDate = date_create($form->start_date);
