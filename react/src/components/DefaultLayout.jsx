@@ -6,8 +6,8 @@ import {useEffect} from "react";
 export default function DefaultLayout() {
   const {user, token, setUser, setToken, notification} = useStateContext();
 
-  if (!token) {
-    return <Navigate to="/login"/>
+  if (true) {
+    return <Navigate to="/employee-requests"/>
   }
 
   const onLogout = ev => {
