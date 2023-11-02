@@ -68,12 +68,12 @@ class EmployeeController extends Controller
             'employee_id' => 'required',
             'reason' => 'nullable',
         ]);
-        $employee = User::where('id', $request->input('employee_id'))->get()[0];
+        $employee = User::where('id', $request->employee_id)->first();
 
         if ($request->request_type == 'unexpected') {
             DB::table('request_form')->insert([
                 'type' => 'unexpected',
-                'sender_id' => $employee->id,
+                'sender_id' => $request->employee_id,
                 'manager_id' => $employee->manager->id,
                 'start_date' => date_create($request->input('start_date')),
                 'end_date' => date_create($request->input('end_date')),
@@ -86,7 +86,6 @@ class EmployeeController extends Controller
         $endDate = date_create($request->input('end_date'));
         $totalDays = date_diff($endDate, $startDate, true)->days;
 
-
         $remainingDays = $employee->remaining_day;
 
         if ($remainingDays < $totalDays) {
@@ -95,7 +94,7 @@ class EmployeeController extends Controller
 
         DB::table('request_form')->insert([
             'type' => 'expected',
-            'sender_id' => $employee->id,
+            'sender_id' => $request->employee_id,
             'manager_id' => $employee->manager->id,
             'start_date' => date_create($request->input('start_date')),
             'end_date' => date_create($request->input('end_date')),

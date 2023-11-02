@@ -15,7 +15,7 @@ export default function FormRequest() {
       request_type: typeRequestInput,
       start_date: startDateInput,
       end_date: endDateInput,
-      employee_id: user.id,
+      employee_id: localStorage.getItem('userId'),
       reason: reasonInput
     })
       .then(response => {

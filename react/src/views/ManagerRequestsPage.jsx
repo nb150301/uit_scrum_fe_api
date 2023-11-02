@@ -31,7 +31,7 @@ export function ManagerRequestPage()
           .then(response => {
               setShow(false)
               setNotification(response.data)
-              this.setState({});
+              window.location.reload();
           })
 
   }
