@@ -31,7 +31,8 @@ export default function DefaultLayout() {
     <div id="defaultLayout">
       <aside>
         <Link to="/form-request">Form Request</Link>
-        <Link to="/form-table">Form Table</Link>
+        <Link to="/employee-requests">Employee Request Table</Link>
+        {user.role == '1' ? <Link to="/manager-requests">Manager Request Table</Link> : ''}
       </aside>
       <div className="content">
         <header>
@@ -40,7 +41,7 @@ export default function DefaultLayout() {
           </div>
 
           <div>
-            {user.name} &nbsp; &nbsp;
+            {user.name} {user.id} &nbsp; &nbsp;
             <a onClick={onLogout} className="btn-logout" href="#">Logout</a>
           </div>
         </header>

@@ -1,9 +1,37 @@
-import { useRef } from "react"
+import {useState} from "react"
 
 import {useStateContext} from "../context/ContextProvider.jsx";
+import axiosClient from "../axios-client.js";
 
 export default function FormRequest() {
-  const {user, token, setUser, setToken, notification} = useStateContext();
+  const {user} = useStateContext();
+
+  const [startDateInput, setStartDateInput] = useState(0);
+  const [endDateInput, setEndDateInput] = useState(0);
+  const [reasonInput, setReasonInput] = useState(0);
+  const [typeRequestInput, setTypeRequestInput] = useState(0);
+  function submitForm() {
+    axiosClient.post(`/user/post-form`, {
+      start_date: startDateInput,
+      end_date: endDateInput,
+      employee_id: user.id,
+      reason: reasonInput
+    })
+      .then(res => JSON.parse(res))
+      .then(data => {
+        console.log(data);
+      })
+  }
+
+  function handleSetStartDateInput(e) {
+    setStartDateInput(e.target.value);
+  }
+  function handleSetEndDateInput(e) {
+    setEndDateInput(e.target.value);
+  }
+  function handleReasonInput(e) {
+    setReasonInput(e.target.value);
+  }
   return (
     <div className="flex justify-center flex-row">
       <form className="w-1/2">
@@ -12,18 +40,18 @@ export default function FormRequest() {
           <div className="flex">
             <div className="w-1/2">
               <label htmlFor="start_date">From</label>
-              <input type="date" id="start_date" name="start_date" />
+              <input type="date" id="start_date" name="start_date" onChange={handleSetStartDateInput}/>
             </div>
             <div className="w-1/2">
               <label htmlFor="end_date">To</label>
-              <input type="date" id="end_date" name="end_date" />
+              <input type="date" id="end_date" name="end_date" onChange={handleSetEndDateInput} />
             </div>
           </div>
           <div><label htmlFor="reason">Reason</label></div>
-          <div><textarea rows="3" className="w-100" id="reason" name="reason"></textarea></div>
+          <div><textarea rows="3" className="w-100" id="reason" name="reason" onChange={handleReasonInput}></textarea></div>
         </div>
         <div className="d-flex justify-content-center">
-          <button type="button" className="btn btn-primary">Submit</button>
+          <button onClick={submitForm} type="button" className="btn btn-primary">Submit</button>
         </div>
       </form>
     </div>

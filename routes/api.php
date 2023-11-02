@@ -23,6 +23,12 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::apiResource('/users', UserController::class);
+
+    Route::get('/user/forms', [\App\Http\Controllers\Api\EmployeeController::class, 'getForms']);
+    Route::post('/user/post-form', [\App\Http\Controllers\Api\EmployeeController::class, 'postForms']);
+    Route::get('/user/manager-forms', [\App\Http\Controllers\Api\EmployeeController::class, 'getManagerForms']);
+    Route::post('/user/manager-forms', [\App\Http\Controllers\Api\EmployeeController::class, 'postManagerForms']);
+
 });
 
 Route::post('/signup', [AuthController::class, 'signup']);

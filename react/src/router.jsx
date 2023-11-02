@@ -9,6 +9,7 @@ import Users from "./views/Users";
 import UserForm from "./views/UserForm";
 import FormRequest from "./views/FormRequest.jsx";
 import RequestsPage from "./views/RequestsPage.jsx";
+import {ManagerRequestPage} from "./views/ManagerRequestsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: '/employee-requests',
         element: <RequestsPage />
+      },
+      {
+        path: '/manager-requests',
+        element: <ManagerRequestPage />
       }
     ]
   },
