@@ -1,31 +1,65 @@
-import { useRef } from "react"
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import '../style/style.css'; // Import your custom CSS
 
-import {useStateContext} from "../context/ContextProvider.jsx";
-
-export default function FormRequest() {
-  const {user, token, setUser, setToken, notification} = useStateContext();
+function FormRequest() {
   return (
-    <div className="flex justify-center flex-row">
-      <form className="w-1/2">
-        <div><input id="name" name="name" value={user.name} type="text" disabled/></div>
+    <div>
+      <form className="form_container">
+        <h1 className="form_title">Leave Request</h1>
         <div className="mb-3">
-          <div className="flex">
-            <div className="w-1/2">
-              <label htmlFor="start_date">From</label>
-              <input type="date" id="start_date" name="start_date" />
+          <label htmlFor="nameInput" className="form-label">
+            Full name
+          </label>
+          <input type="name" className="form-control" id="nameInput" aria-describedby="emailHelp" />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="fromDate">From</label>
+          <input type="date" id="fromDate" name="fromDate" />
+          <label htmlFor="toDate">To</label>
+          <input type="date" id="toDate" name="toDate" />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Remaining days: 3 days</label>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="textareaInput" className="form-label">
+            Reason
+          </label>
+          <textarea id="textareaInput" name="reasonInput" rows="4" cols="50"></textarea>
+        </div>
+        <button
+          type="button"
+          className="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          Submit
+        </button>
+      </form>
+      <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Submit Leave Request
+              </h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div className="w-1/2">
-              <label htmlFor="end_date">To</label>
-              <input type="date" id="end_date" name="end_date" />
+            <div className="modal-body">Are you sure to submit this leave request?</div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                No
+              </button>
+              <button type="button" className="btn btn-primary" onClick={() => (window.location.href = 'self_history.html')}>
+                Yes
+              </button>
             </div>
           </div>
-          <div><label htmlFor="reason">Reason</label></div>
-          <div><textarea rows="3" className="w-100" id="reason" name="reason"></textarea></div>
         </div>
-        <div className="d-flex justify-content-center">
-          <button type="button" className="btn btn-primary">Submit</button>
-        </div>
-      </form>
+      </div>
     </div>
-  )
+  );
 }
+
+export default FormRequest;
